@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML5 Video and Text Tracks</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/script.js"></script>
+</head>
+
+<body>
+    <h1>Working with VTT Information, Values and Content</h1>
+    <video id="myVideo" preload="metadata" controls crossOrigin="anonymous">
+        <source src="https://dl.dropboxusercontent.com/s/vtsoa1yunhivgaq/elephants-dream-medium.mp4?dl=1" type="video/mp4">
+        <source src="https://dl.dropboxusercontent.com/s/9mg11dpy5r3jt6l/elephants-dream-medium.webm?dl=1" type="video/webm">
+        <track label="English subtitles" kind="subtitles" srclang="en" src="https://dl.dropboxusercontent.com/s/zxli50ldo11s589/elephants-dream-subtitles-en.vtt?dl=1">
+        <track label="Deutsch subtitles" kind="subtitles" srclang="de" src="https://dl.dropboxusercontent.com/s/i9bq4knn8b36rvy/elephants-dream-subtitles-de.vtt?dl=1" default>
+        <track label="English chapters" kind="chapters" srclang="en" src="https://dl.dropboxusercontent.com/s/3aj6pcv35ozz0jm/elephants-dream-chapters-en.vtt?dl=1">
+    </video>
+    <h3>HTML track descriptions</h3>
+    <h4>readyState values</h4>
+    <ul>
+        <li>0 = NONE ; the text track's cues have not been obtained</li>
+        <li>1 = LOADING ; the text track is loading with no errors yet. Further cues can still be added to the track by the parser</li>
+        <li>2 = LOADED ; the text track has been loaded with no errors</li>
+        <li>3 = ERROR ; the text track was enabled, but when the user agent attempted to obtain it, something failed. Some or
+            all of the cues are likely missing and will not be obtained</li>
+    </ul>
+    <h4>mode values</h4>
+    <ul>
+        <li>"showing": the track is either already loaded, or is being loaded by the browser. As soon as it is completely loaded,
+            subtitles or captions will be displayed in the video. Other kinds of track will be loaded but will not necessarily
+            show anything visible in the document. All tracks that have mode="showing" will fire events while the video is
+            being played.</li>
+        <li>"hidden": the track is either already loaded, or is being loaded by the browser. All tracks that have mode="hidden"
+            will fire events while the video is being played. Nothing will be visible in the standard video player GUI.</li>
+        <li>"disabled": this is the mode where tracks are not being loaded. If a loaded track has its mode set to "disabled",
+            it will stop firing events, and if it was in mode="showing" the subtitles or captions will stop being displayed
+            in the video player.</li>
+    </ul>
+    <p>
+        <button onclick=displayTrackStatuses()>Refresh track statuses</button>
+    </p>
+    <p>
+        <button id="buttonLoadFirstTrack" onclick="forceLoadTrack(0);" disabled>Force load track 0</button>
+        <button id="buttonLoadSecondTrack" onclick="forceLoadTrack(1);" disabled>Force load track 1</button>
+        <button id="buttonLoadThirdTrack" onclick="forceLoadTrack(2);" disabled>Force load track 2</button>
+    </p>
+    <p>
+        <button id="buttonLoadFirstCues" onclick="loadCues(0);" disabled>Load cues track 0</button>
+        <button id="buttonLoadSecondCues" onclick="loadCues(1);" disabled>Load cues track 1</button>
+        <button id="buttonLoadThirdCues" onclick="loadCues(2);" disabled>Load cues track 2</button>
+    </p>
+    <p>
+        <button id="cueChangeFirstTrack" onclick="cueChange(0);" disabled>Start listening to cuechange events for track 0 (English subs)</button>
+        <button id="cueChangeSecondTrack" onclick="cueChange(1);" disabled>Start listening to cuechange events for track 1 (German subs)</button>
+    </p>
+    <p>
+        <button id="stopCueChangeFirstTrack" onclick="stopCueChange(0);" disabled>Stop listening to cuechange events for track 0 (English subs)</button>
+        <button id="stopCueChangeSecondTrack" onclick="stopCueChange(1);" disabled>Stop listening to cuechange events for track 1 (German subs)</button>
+    </p>
+    <p>
+        <button id="cueEnterExitFirstTrack" onclick="cueEnterExit(0);" disabled>Start listening to enter and exit events for track 0 (English subs)</button>
+        <button id="cueEnterExitSecondTrack" onclick="cueEnterExit(1);" disabled>Start listening to enter and exit events for track 1 (German subs)</button>
+    </p>
+    <p>
+        <button id="stopCueEnterExitFirstTrack" onclick="stopCueEnterExit(0);" disabled>Stop listening to enter and exit events for track 0 (English subs)</button>
+        <button id="stopCueEnterExitSecondTrack" onclick="stopCueEnterExit(1);" disabled>Stop listening to enter and exit events for track 1 (German subs)</button>
+    </p>
+    <div id="trackStatusesDiv">
+    </div>
+</body>
+
+</html>
