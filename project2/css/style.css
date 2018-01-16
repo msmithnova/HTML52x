@@ -1,0 +1,37 @@
+body {
+    font-size: 16px;
+}
+header,
+footer {
+    text-align: center;
+    color: cornflowerblue;
+    background-color: rgb(35, 35, 35);
+}
+header h1 {
+    margin: 0;
+    padding: 5px 0;
+}
+summary {
+    font-size: 1.2em;
+    margin: 5px 0;
+}
+#player {
+    background-color: rgb(35, 35, 35);
+}
+video {
+    border: 1px solid cornflowerblue;
+    width: 100%;
+}
+#playlist {
+    border: 1px solid red;
+}
+#controls {
+    border: 1px solid green;
+}
+#chapters {
+    border: 1px solid darkcyan;
+}
+footer p {
+    margin: 0;
+    padding: 5px 0;
+}

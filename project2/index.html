@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Video Player</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/script.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1>Custom Video Player</h1>
+    </header>
+    <main>
+        <details>
+            <summary>Player Details</summary>
+            <p>All player controls are custom. It supports captions as well as chapters.</p>
+        </details>
+        <details>
+            <summary>Video Details</summary>
+            <p>
+                I have uploaded the Elephants Dream videos, subtitles and chapters to Dropbox. They are being server from there. The Big
+                Buck Bunny video is very large and therefore listed last in case you want to avoid them. The Sintel video
+                is only in mp4 and is the only other one with subtitles. The Caminades video is only in mp4 and is direct
+                from their site.
+            </p>
+            <ul>
+                <li>Elephants Dream © Copyright 2006, Blender Foundation / Netherlands Media Art Institute /
+                    <a href="http://www.elephantsdream.org" target="_blank">www.elephantsdream.org</a>
+                </li>
+                <li>Sintel © copyright Blender Foundation |
+                    <a href="http://durian.blender.org" target="_blank">durian.blender.org</a> - 40 subtitles available.
+                </li>
+                <li>Caminades © copyright
+                    <a href="http://http://www.caminandes.com" target="_blank">www.caminandes.com</a>
+                </li>
+                <li>Big Buck Bunny (c) copyright 2008, Blender Foundation /
+                    <a href="http://www.bigbuckbunny.org" target="_blank">www.bigbuckbunny.org</a>
+                </li>
+            </ul>
+        </details>
+        <div id="player">
+            <video preload="metadata">
+                <p>Your Browser does not support the video tag.</p>
+            </video>
+            <div id="playlist"></div>
+            <div id="controls"></div>
+            <div id="chapters"></div>
+        </div>
+    </main>
+    <footer>
+        <p>Created by Michael Smith 2018</p>
+    </footer>
+</body>
+
+</html>
