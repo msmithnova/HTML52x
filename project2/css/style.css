@@ -1,5 +1,6 @@
 body {
     font-size: 16px;
+    min-width: 650px;
 }
 header,
 footer {
@@ -17,18 +18,115 @@ summary {
 }
 #player {
     background-color: rgb(35, 35, 35);
+    width: 97vw;
+    margin: auto;
+}
+#seekMsg {
+    position: absolute;
+    color: white;
+    background-color: black;
+    font-size: 3em;
 }
 video {
-    border: 1px solid cornflowerblue;
     width: 100%;
+    max-height: 85vh;
 }
 #playlist {
     border: 1px solid red;
 }
-#controls {
-    border: 1px solid green;
+#controlsTopRow {
+    color: white;
+    margin: 10px;
+}
+#controlsCurrentTime {
+    float: left;
+}
+#controlsProgressBar {
+    margin: 0 10px;
+    height: 1em;
+    width: 80%;
+    background-color: gray;
+    border: 2px solid black;
+    border-radius: 5px;
+    float: left;
+}
+#controlsProgressBar:hover {
+    border: 2px solid blue;
+}
+#controlsBufferedBar {
+    background-color: lightgray;
+    height: 1em;
+    width: 0;
+}
+#controlsPlayedBar {
+    background-color: darkslategrey;
+    height: 1em;
+    width: 0;
+}
+#controlsEndTime {
+    float: left;
+}
+#controlsBottomRow {
+    clear: both;
+}
+#controlsBottomRow > * {
+    float: left;
+    margin: 5px;
+    border: 2px solid black;
+    width: 25px;
+    height: 25px;
+    background-color: gray;
+    border-radius: 5px;
+}
+#controlsBottomRow > *:hover {
+    border: 2px solid blue;
+}
+#controlsPlayButton {
+    background-image: url("../img/play.png");
+    background-size: contain;
+    margin-left: 10px;
+    margin-right: 20px;
+}
+#controlsPrevVideo {
+    background-image: url("../img/prev.png");
+    background-size: contain;
+}
+#controlsStop {
+    background-image: url("../img/stop.png");
+    background-size: contain;
+}
+#controlsNextVideo {
+    background-image: url("../img/next.png");
+    background-size: contain;
+    margin-right: 20px;
+}
+#controlsSettings {
+    background-image: url("../img/settings.png");
+    background-size: contain;
+}
+#controlsPlaylist {
+    background-image: url("../img/playlist.png");
+    background-size: contain;
+    margin-right: 20px;
+}
+#controlsLoop {
+    color: white;
+    font-family: sans-serif;
+    font-weight: bolder;
+    font-size: 22px;
+    text-align: center;
+}
+#controlsRandom {
+    background-image: url("../img/random.png");
+    background-size: contain;
+    margin-right: 20px;
+}
+#controlsFullScreen {
+    background-image: url("../img/fullscreen.png");
+    background-size: contain;
 }
 #chapters {
+    clear: both;
     border: 1px solid darkcyan;
 }
 footer p {

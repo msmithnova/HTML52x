@@ -46,7 +46,28 @@
                 <p>Your Browser does not support the video tag.</p>
             </video>
             <div id="playlist"></div>
-            <div id="controls"></div>
+            <div id="controls">
+                <div id="controlsTopRow">
+                    <div id="controlsCurrentTime">0:00:00</div>
+                    <div id="controlsProgressBar">
+                        <div id="controlsBufferedBar">
+                            <div id="controlsPlayedBar"></div>
+                        </div>
+                    </div>
+                    <div id="controlsEndTime">0:00:00</div>
+                </div>
+                <div id="controlsBottomRow">
+                    <div id="controlsPlayButton" title="play"></div>
+                    <div id="controlsPrevVideo" title="prev video"></div>
+                    <div id="controlsStop" title="stop"></div>
+                    <div id="controlsNextVideo" title="next video"></div>
+                    <div id="controlsSettings" title="settings"></div>
+                    <div id="controlsPlaylist" title="playlist"></div>
+                    <div id="controlsLoop" title="loop: N=none, 1=this video, a=all">N</div>
+                    <div id="controlsRandom" title="random"></div>
+                    <div id="controlsFullScreen" title="full screen"></div>
+                </div>
+            </div>
             <div id="chapters"></div>
         </div>
     </main>
