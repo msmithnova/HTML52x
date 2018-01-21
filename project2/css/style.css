@@ -1,6 +1,5 @@
 body {
     font-size: 16px;
-    min-width: 650px;
 }
 header,
 footer {
@@ -17,11 +16,12 @@ summary {
     margin: 5px 0;
 }
 #player {
+    position: relative;
     background-color: rgb(35, 35, 35);
-    width: 97vw;
+    width: 95vw;
     margin: auto;
 }
-#seekMsg {
+#messages {
     position: absolute;
     color: white;
     background-color: black;
@@ -31,8 +31,29 @@ video {
     width: 100%;
     max-height: 85vh;
 }
+#playlistDiv {
+    position: absolute;
+    bottom: 30px;
+    left: 175px;
+}
 #playlist {
-    border: 1px solid red;
+    background-color: gray;
+    color: white;
+    border: 2px solid maroon;
+    margin: 0;
+    list-style-type: none;
+    padding: 5px 10px;
+    font-size: 1.2em;
+}
+#playlist li {
+    cursor: pointer;
+    padding: 5px;
+}
+#playlist li:hover{
+    background-color: blue;
+}
+#controls {
+    position: relative;
 }
 #controlsTopRow {
     color: white;
@@ -54,11 +75,12 @@ video {
     border: 2px solid blue;
 }
 #controlsBufferedBar {
-    background-color: lightgray;
+    position: relative;
     height: 1em;
-    width: 0;
 }
 #controlsPlayedBar {
+    position: relative;
+    top: -1em;
     background-color: darkslategrey;
     height: 1em;
     width: 0;
@@ -85,7 +107,7 @@ video {
     background-image: url("../img/play.png");
     background-size: contain;
     margin-left: 10px;
-    margin-right: 20px;
+    margin-right: 15px;
 }
 #controlsPrevVideo {
     background-image: url("../img/prev.png");
@@ -98,16 +120,20 @@ video {
 #controlsNextVideo {
     background-image: url("../img/next.png");
     background-size: contain;
-    margin-right: 20px;
+    margin-right: 15px;
 }
-#controlsSettings {
-    background-image: url("../img/settings.png");
+#controlsChapters {
+    background-image: url("../img/chapters.png");
     background-size: contain;
 }
 #controlsPlaylist {
     background-image: url("../img/playlist.png");
     background-size: contain;
-    margin-right: 20px;
+}
+#controlsSettings {
+    background-image: url("../img/settings.png");
+    background-size: contain;
+    margin-right: 15px;
 }
 #controlsLoop {
     color: white;
@@ -115,21 +141,84 @@ video {
     font-weight: bolder;
     font-size: 22px;
     text-align: center;
+    cursor: default;
 }
 #controlsRandom {
     background-image: url("../img/random.png");
     background-size: contain;
-    margin-right: 20px;
+    margin-right: 15px;
+}
+#controlsCaptions {
+    background-image: url("../img/caption.png");
+    background-size: contain;
 }
 #controlsFullScreen {
     background-image: url("../img/fullscreen.png");
     background-size: contain;
+    margin-right: 15px;
 }
-#chapters {
+#controlsMute {
+    background-image: url("../img/nomute.png");
+    background-size: contain;
+}
+#controlsVolume {
+    width: 100px;
+}
+#controlsBottomRow .buttonDown {
+    background-color: lightblue;
+}
+#controlsBottomRow .buttonActive {
+    border: 2px solid blue;
+    background-color: darkblue;
+}
+#chapterListDiv {
+    position: absolute;
+    bottom: 30px;
+    left: 125px;
+}
+#chapterlist {
+    background-color: gray;
+    color: white;
+    border: 2px solid maroon;
+    margin: 0;
+    list-style-type: none;
+    padding: 5px 10px;
+    font-size: 1.2em;
+}
+#chapterlist li {
+    cursor: pointer;
+    padding: 5px;
+}
+#chapterlist li:hover{
+    background-color: blue;
+}
+#chaptersOuterDiv {
     clear: both;
     border: 1px solid darkcyan;
+    height: 0;
+    overflow-y: hidden;
+    overflow-x: scroll;
+}
+#chaptersInnerDiv {
+    height: 175px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+#chaptersInnerDiv > div {
+    text-align: center;
+    color: white;
+    float: left;
+    margin: 0 5px;
+    cursor: pointer;
+}
+#chaptersInnerDiv > div img {
+    height: 100px;
+}
+#chaptersInnerDiv > div.chapterActive {
+    border: 2px solid blue;
 }
 footer p {
+    clear: both;
     margin: 0;
     padding: 5px 0;
 }

@@ -45,14 +45,14 @@
             <video preload="metadata">
                 <p>Your Browser does not support the video tag.</p>
             </video>
-            <div id="playlist"></div>
             <div id="controls">
+                <div id="playlistDiv"></div>
+                <div id="chapterListDiv"></div>
                 <div id="controlsTopRow">
                     <div id="controlsCurrentTime">0:00:00</div>
                     <div id="controlsProgressBar">
-                        <div id="controlsBufferedBar">
-                            <div id="controlsPlayedBar"></div>
-                        </div>
+                        <div id="controlsBufferedBar"></div>
+                        <div id="controlsPlayedBar"></div>
                     </div>
                     <div id="controlsEndTime">0:00:00</div>
                 </div>
@@ -61,14 +61,21 @@
                     <div id="controlsPrevVideo" title="prev video"></div>
                     <div id="controlsStop" title="stop"></div>
                     <div id="controlsNextVideo" title="next video"></div>
-                    <div id="controlsSettings" title="settings"></div>
+                    <div id="controlsChapters" title="chapters"></div>
                     <div id="controlsPlaylist" title="playlist"></div>
-                    <div id="controlsLoop" title="loop: N=none, 1=this video, a=all">N</div>
+                    <div id="controlsSettings" title="settings"></div>
+                    <div id="controlsLoop" title="loop: N=none, 1=this video, A=all">N</div>
                     <div id="controlsRandom" title="random"></div>
+                    <div id="controlsCaptions" title="captions"></div>
                     <div id="controlsFullScreen" title="full screen"></div>
+                    <!-- Add volume -->
+                    <div id="controlsMute" title="mute"></div>
+                    <input id="controlsVolume" type="range" min="0" max="100" step="1" value="100" title="volume"></input>
                 </div>
             </div>
-            <div id="chapters"></div>
+            <div id="chaptersOuterDiv">
+                <div id="chaptersInnerDiv"></div>
+            </div>
         </div>
     </main>
     <footer>
