@@ -130,6 +130,8 @@ var videoElement;
 var currentVideoIndex = 0;
 var currentChapterIndex = -1;
 var currentActiveChapter = -1;
+var currentCaptionIndex = -1;
+var currentActiveCaption = -1;
 var playing = false;
 var videoVolume = 0.5;
 var videoRandom = false;
@@ -181,6 +183,9 @@ function currentimeChanged() {
     setProgressBars();
     if (currentChapterIndex != -1) {
         determineCurrentChapter();
+    }
+    if (currentCaptionIndex != -1) {
+        determineCurrentCaption();
     }
     removeMessage();
 }
@@ -433,8 +438,6 @@ function buttonClick(evt) {
         case "controlsPlaylist":
             togglePlaylist();
             break;
-        case "controlsSettings":
-            break;
         case "controlsLoop":
             if (videoLoop == "N") {
                 videoLoop = "1";
@@ -455,6 +458,7 @@ function buttonClick(evt) {
             changeVideo();
             break;
         case "controlsCaptions":
+            toggleCaptions();
             break;
         case "controlsFullScreen":
             if (videoElement.requestFullscreen) {
@@ -490,6 +494,10 @@ function changeVideo() {
     currentChapterIndex = -1;
     currentActiveChapter = -1;
     hideChapters();
+    //set caption vars back to -1 and hide captions if showing
+    currentCaptionIndex = -1;
+    currentActiveCaption = -1;
+    hideCaptions();
     //togglePlayButton("pause");
     resetBufferedBar();
     resetVideoElement();
@@ -524,7 +532,18 @@ function toggleChapters() {
     }
 }
 
+function toggleCaptions() {
+    // if video has caption tracks, toggle button and display choices
+    var captionButton = document.querySelector("#controlsCaptions");
+    var captionTracks = captionTrack();
+    if (captionTracks.length > 0) {
+        toggleButtonStyle(captionButton);
+        displayCaptionChoices(captionTracks);
+    }
+}
+
 function togglePlaylist() {
+    // build playlist
     var playlistButton = document.querySelector("#controlsPlaylist");
     toggleButtonStyle(playlistButton);
     var playlistDiv = document.querySelector("#playlistDiv");
@@ -562,6 +581,21 @@ function chapterTrack() {
     return chapterTracks;
 }
 
+function captionTrack() {
+    // get list of caption tracks
+    // includes kinds of captions, descriptions and subtitles
+    var textTracks = videoElement.textTracks;
+    var captionTracks = [];
+    var kind;
+    for (var i = 0; i < textTracks.length; i++) {
+        kind = textTracks[i].kind;
+        if (kind == "captions" || kind == "description" || kind == "subtitles") {
+            captionTracks.push(i);
+        }
+    }
+    return captionTracks;
+}
+
 function displayChapterChoices(chapterTracks) {
     // display list of chapter tracks and setup click handler
     var chapterListDiv = document.querySelector("#chapterListDiv");
@@ -583,6 +617,27 @@ function displayChapterChoices(chapterTracks) {
     }
 }
 
+function displayCaptionChoices(captionTracks) {
+    // display list of caption tracks and setup click handler
+    var captionListDiv = document.querySelector("#captionListDiv");
+    if (captionListDiv.innerHTML != "") {
+        captionListDiv.innerHTML = "";
+    } else {
+        var htmlString = '<ul id="captionlist"><li data-idx="-1">None</li>';
+        for (var idx in captionTracks) {
+            htmlString += '<li data-idx="' + captionTracks[idx] + '">';
+            htmlString += videoElement.textTracks[captionTracks[idx]].label;
+            htmlString += '</li>';
+        }
+        htmlString += "</ul>";
+        captionListDiv.innerHTML = htmlString;
+        var listItems = document.querySelectorAll("#captionListDiv li");
+        for (var i = 0; i < listItems.length; i++) {
+            listItems[i].addEventListener("click", captionHandler);
+        }
+    }
+}
+
 function chapterHandler(evt) {
     // handle click from chapter list
     var chaptersButton = document.querySelector("#controlsChapters");
@@ -591,7 +646,16 @@ function chapterHandler(evt) {
     loadChapters(evt.currentTarget.getAttribute("data-idx"));
 }
 
+function captionHandler(evt) {
+    // handle click from caption list
+    var captionsButton = document.querySelector("#controlsCaptions");
+    toggleButtonStyle(captionsButton);
+    document.querySelector("#captionListDiv").innerHTML = "";
+    loadCaptions(evt.currentTarget.getAttribute("data-idx"));
+}
+
 function playlistHandler(evt) {
+    // handle click from playlist
     var playlistButton = document.querySelector("#controlsPlaylist");
     toggleButtonStyle(playlistButton);
     document.querySelector("#playlistDiv").innerHTML = "";
@@ -622,6 +686,28 @@ function loadChapters(idx) {
     }
 }
 
+function loadCaptions(idx) {
+    // if idx -1 (none) hide captions
+    if (idx == -1) {
+        hideCaptions();
+        // else if captions not already loaded, force load
+    } else if (idx != currentCaptionIndex) {
+        currentCaptionIndex = idx;
+        var textTrack = videoElement.textTracks[idx];
+        if (textTrack.mode == "disabled") {
+            videoElement.setAttribute("crossorigin", "anonymous");
+            textTrack.mode = "hidden";
+            document.querySelectorAll("track")[idx].addEventListener('load', displayCaptions);
+        } else {
+            displayCaptions();
+        }
+        // else show captions
+    } else {
+        var textTrack = videoElement.textTracks[idx];
+        showCaptions(textTrack.cues.length);
+    }
+}
+
 function displayChapters() {
     // build the chapters divs and then show them
     videoElement.removeAttribute("crossorigin");
@@ -644,11 +730,49 @@ function displayChapters() {
     showChapters(cues.length);
 }
 
+function displayCaptions() {
+    // build the captions and display them
+    videoElement.removeAttribute("crossorigin");
+    var captionsDiv = document.querySelector("#captionsDiv");
+    captionsDiv.innerHTML = "";
+    var cues = videoElement.textTracks[currentCaptionIndex].cues;
+    for (var i = 0; i < cues.length; i++) {
+        var p = document.createElement("p");
+        p.id = cues[i].id;
+        p.setAttribute("data-startTime", cues[i].startTime);
+        p.setAttribute("data-endTime", cues[i].endTime);
+        var htmlString = "";
+        var patt = new RegExp("<v ([A-z]+)>(.+)</v>");
+        if (patt.test(cues[i].text)) {
+            var res = patt.exec(cues[i].text);
+            htmlString += res[1] + ": " + res[2];
+        } else {
+            htmlString += cues[i].text;
+        }
+        p.innerHTML = htmlString;
+        captionsDiv.appendChild(p);
+        p.addEventListener("click", captionClicked);
+    }
+    showCaptions(cues.length);    
+}
+
 function hideChapters() {
     var chaptersOuterDiv = document.querySelector("#chaptersOuterDiv");
     chaptersOuterDiv.style.height = "0";
     var chaptersInnerDiv = document.querySelector("#chaptersInnerDiv");
     chaptersInnerDiv.style.width = "0";
+}
+function hideCaptions() {
+    var captionsDiv = document.querySelector("#captionsDiv");
+    captionsDiv.style.height = "0";
+}
+
+function showCaptions() {
+    var captionsDiv = document.querySelector("#captionsDiv");
+    captionsDiv.style.height = "120px";
+    captionsDiv.scrollTop = "0";
+    currentActiveCaption = -1;
+    determineCurrentCaption();
 }
 
 function showChapters(numberChapters) {
@@ -682,6 +806,15 @@ function chapterClicked(evt) {
     videoElement.currentTime = startTime;
 }
 
+function captionClicked(evt) {
+    if (currentActiveCaption != -1) {
+        document.querySelector(".captionActive").classList.remove("captionActive");
+    }
+    evt.currentTarget.classList.add("captionActive");
+    var startTime = evt.currentTarget.getAttribute("data-startTime");
+    videoElement.currentTime = startTime;
+}
+
 function determineCurrentChapter() {
     // determine current chaper to highlight and scroll into view
     var divs = document.querySelectorAll("#chaptersInnerDiv > div");
@@ -702,6 +835,31 @@ function determineCurrentChapter() {
                 divs[i].classList.add("chapterActive");
                 var chaptersOuterDiv = document.querySelector("#chaptersOuterDiv");
                 chaptersOuterDiv.scrollLeft = i * 170;
+            }
+        }
+    }
+}
+
+function determineCurrentCaption() {
+    // determine current caption to highlight and scroll into view
+    var p = document.querySelectorAll("#captionsDiv > p");
+    var found = false;
+    // loop through all captions
+    for (var i = p.length - 1; i >= 0; i--) {
+        var pStart = p[i].getAttribute("data-startTime");
+        // if found correct caption and not already found make it active
+        if (pStart <= videoElement.currentTime && !found) {
+            found = true;
+            // if correct caption is not current one make it active
+            // prevents bar scrolling every second so you can select one
+            if (i != currentActiveCaption) {
+                if (currentActiveCaption != -1) {
+                    document.querySelector(".captionActive").classList.remove("captionActive");
+                }
+                currentActiveCaption = i;
+                p[i].classList.add("captionActive");
+                var captionsDiv = document.querySelector("#captionsDiv");
+                captionsDiv.scrollTop = i * 22;
             }
         }
     }

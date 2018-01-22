@@ -129,10 +129,6 @@ video {
 #controlsPlaylist {
     background-image: url("../img/playlist.png");
     background-size: contain;
-}
-#controlsSettings {
-    background-image: url("../img/settings.png");
-    background-size: contain;
     margin-right: 15px;
 }
 #controlsLoop {
@@ -176,7 +172,13 @@ video {
     bottom: 30px;
     left: 125px;
 }
-#chapterlist {
+#captionListDiv {
+    position: absolute;
+    bottom: 30px;
+    left: 250px;
+}
+#chapterlist,
+#captionlist {
     background-color: gray;
     color: white;
     border: 2px solid maroon;
@@ -185,11 +187,13 @@ video {
     padding: 5px 10px;
     font-size: 1.2em;
 }
-#chapterlist li {
+#chapterlist li,
+#captionlist li {
     cursor: pointer;
     padding: 5px;
 }
-#chapterlist li:hover{
+#chapterlist li:hover,
+#captionlist li:hover {
     background-color: blue;
 }
 #chaptersOuterDiv {
@@ -216,6 +220,22 @@ video {
 }
 #chaptersInnerDiv > div.chapterActive {
     border: 2px solid blue;
+}
+#captionsDiv {
+    height: 0;
+    overflow-y: scroll;
+}
+#captionsDiv > p {
+    margin: 0 10px;
+    padding: 2px 0;
+    color: white;
+    cursor: pointer;
+}
+#captionsDiv > p:hover {
+    color: cadetblue;
+}
+#captionsDiv > p.captionActive {
+    color: cornflowerblue;
 }
 footer p {
     clear: both;

@@ -16,7 +16,23 @@
     <main>
         <details>
             <summary>Player Details</summary>
-            <p>All player controls are custom. It supports captions as well as chapters.</p>
+            <p>All player controls are custom, they could use some better styling when I get to it. Video can be played/paused by clicking on the video or the button. 
+                The stop button is the same as pressing pause at this time. The next/prev buttons go to the next or previous videos. The player will automatically move 
+                on to the next video as well. The next/prev video is determined by the playlist and the random option. The playlist is rearranged when random is selected.
+                The playlist button will show the current order and allow you to select any video. The chapters button will display chapter options to select. The CC button 
+                will show caption options including captions, subtitles and descriptions. The full screen button will make the video full screen. Custom controls are not 
+                available in full screen at this time. You can adjust the volume with the slider as well as muting with the button. On un-mute it restores previous volume.
+                The progress bar shows the current position as well as all buffered areas which ay be confusing to some at first. Clicking in the progress bar will move to 
+                that position in the video. Progress bar drag has not been implemented yet. Clicking on chapters or captions when displayed will take you to that position 
+                of the video.</p>
+        </details>
+        <details>
+            <summary>Code Details</summary>
+            <p>There are a lot of options that can still be added. There are some minor issues to be fixed like disabling chapters button if the video doesn't have a 
+                chapters file. There are some small issues at certain sizes and some sizes are hard coded which can be fixed. The code can certainly be refactored, 
+                cleaned up and reorganized. In the case of captions and chapters, a lot of the code is similar and could be generalized. More and better comments can 
+                be added. A lot of stuff would have been easier ith jQuery and other modules but the point was to do it in pure HTML, CSS and JS. Alas, that is all the 
+                time I have to spend on it for now. I will likely revisit it in the future.</p>
         </details>
         <details>
             <summary>Video Details</summary>
@@ -45,9 +61,11 @@
             <video preload="metadata">
                 <p>Your Browser does not support the video tag.</p>
             </video>
+            <div id="captionsDiv"></div>
             <div id="controls">
                 <div id="playlistDiv"></div>
                 <div id="chapterListDiv"></div>
+                <div id="captionListDiv"></div>
                 <div id="controlsTopRow">
                     <div id="controlsCurrentTime">0:00:00</div>
                     <div id="controlsProgressBar">
@@ -63,7 +81,6 @@
                     <div id="controlsNextVideo" title="next video"></div>
                     <div id="controlsChapters" title="chapters"></div>
                     <div id="controlsPlaylist" title="playlist"></div>
-                    <div id="controlsSettings" title="settings"></div>
                     <div id="controlsLoop" title="loop: N=none, 1=this video, A=all">N</div>
                     <div id="controlsRandom" title="random"></div>
                     <div id="controlsCaptions" title="captions"></div>
